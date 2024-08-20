@@ -38,11 +38,14 @@ const BlogList = () => {
   const fetchBlogs = async () => {
     setLoading(true)
     try {
-      const response = await axios.get(`${apiPath.getAllBlog}/${userInfo?._id}?search=${filterData?.searchText}`, {
-        headers: {
+      const response = await axios.get(
+        `${apiPath.getAllBlog}/${userInfo?._id}?search=${filterData?.searchText}`,
+        {
+          headers: {
             Authorization: `Bearer ${accessToken}`
+          }
         }
-    })
+      )
       if (response.status === 200 && response?.data?.code == 200) {
         setBlogs(response)
       }
@@ -58,17 +61,21 @@ const BlogList = () => {
     values = { ...values, userId: userInfo?._id }
     try {
       if (values?._id) {
-        var response = await axios.put(`${apiPath.blog}/${values?._id}`, values,  {
-          headers: {
+        var response = await axios.put(
+          `${apiPath.blog}/${values?._id}`,
+          values,
+          {
+            headers: {
               Authorization: `Bearer ${accessToken}`
+            }
           }
-      });
+        )
       } else {
-        var response = await axios.post(apiPath.blog, values,  {
+        var response = await axios.post(apiPath.blog, values, {
           headers: {
-              Authorization: `Bearer ${accessToken}`
+            Authorization: `Bearer ${accessToken}`
           }
-      });
+        })
       }
       if (response.status === 200 && response?.data?.code == 200) {
         toast.success(response?.data?.message)
@@ -99,7 +106,11 @@ const BlogList = () => {
         cancelButtonText: 'Cancel'
       }).then(async (result) => {
         if (result.isConfirmed) {
-          const response = await axios.delete(`${apiPath.blog}/${id}`)
+          const response = await axios.delete(`${apiPath.blog}/${id}`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`
+            }
+          })
           if (response.status === 200 && response?.data?.code == 200) {
             toast.success(response?.data?.message)
             fetchBlogs()
@@ -184,4 +195,4 @@ const BlogList = () => {
   )
 }
 
-export default BlogList;
+export default BlogList
